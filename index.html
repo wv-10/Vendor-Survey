@@ -185,7 +185,6 @@
   .status-msg.success { background: #e6f9f1; color: #1a6e45; border: 1px solid #a3e0c0; display: block; }
 
   /* STICKY SECTION NAVIGATOR */
-  .page-wrap { display: flex; max-width: 1340px; margin: 0 auto; gap: 0; position: relative; }
   .section-nav { width: 200px; flex-shrink: 0; padding: 28px 0 0 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; align-self: flex-start; }
   .section-nav ul { list-style: none; padding: 0 16px; margin: 0; }
   .section-nav ul li { margin-bottom: 2px; }
@@ -214,56 +213,49 @@
     letter-spacing: 0.6px; color: var(--text-muted); padding: 0 10px 8px;
     margin-bottom: 4px; border-bottom: 1px solid var(--border); }
   .content-wrap { flex: 1; min-width: 0; }
+  /* ── PAGE LAYOUT ── */
+  .page-wrap { display: flex; max-width: 1300px; margin: 0 auto; }
+  .nav-sidebar {
+    width: 196px; flex-shrink: 0; align-self: flex-start;
+    position: sticky; top: 112px; height: calc(100vh - 112px);
+    overflow-y: auto; padding: 24px 0 40px 20px;
+  }
+  .main-content { flex: 1; min-width: 0; padding: 28px 32px 80px 20px; }
   @media (max-width: 900px) {
-    .section-nav { display: none; }
+    .nav-sidebar { display: none; }
+    .main-content { padding: 20px 16px 80px; }
     .page-wrap { display: block; }
   }
-
-  /* SIDEBAR NAV */
-  .page-wrap { display: flex; max-width: 1340px; margin: 0 auto; gap: 0; position: relative; }
-  .nav-sidebar {
-    width: 210px; flex-shrink: 0; padding: 28px 0 80px 24px;
-    position: sticky; top: 110px; height: calc(100vh - 110px); overflow-y: auto;
-    align-self: flex-start;
-  }
-  .nav-sidebar-inner { padding-top: 8px; }
+  /* ── SIDEBAR ITEMS ── */
   .nav-sidebar-label {
     font-size: 10px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.7px; color: var(--text-muted); padding: 0 4px 10px;
-    display: block;
+    letter-spacing: 0.7px; color: var(--text-muted); display: block;
+    padding: 0 4px 10px; border-bottom: 1px solid var(--border); margin-bottom: 8px;
   }
   .nav-item {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 7px 8px; border-radius: 7px; cursor: pointer;
-    transition: background 0.12s; text-decoration: none;
-    margin-bottom: 2px;
+    display: flex; align-items: flex-start; gap: 9px; padding: 6px 8px;
+    border-radius: 7px; cursor: pointer; text-decoration: none;
+    margin-bottom: 2px; transition: background 0.12s;
   }
   .nav-item:hover { background: rgba(0,201,167,0.08); }
-  .nav-item.active { background: rgba(0,201,167,0.12); }
-  .nav-item.active .nav-item-num { background: var(--teal); color: var(--navy); }
-  .nav-item.active .nav-item-label { color: var(--teal-dark); font-weight: 600; }
+  .nav-item.active { background: rgba(0,201,167,0.13); }
   .nav-item-num {
-    width: 20px; height: 20px; border-radius: 50%; background: #e8edf3;
+    width: 19px; height: 19px; border-radius: 50%; background: #e8edf3;
     color: var(--text-muted); font-size: 10px; font-weight: 700;
     display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; margin-top: 1px; transition: background 0.12s, color 0.12s;
+    flex-shrink: 0; margin-top: 1px; transition: all 0.12s;
   }
-  .nav-item-label { font-size: 12.5px; color: var(--text-muted); line-height: 1.4; }
-  .nav-divider { border: none; border-top: 1px solid var(--border); margin: 10px 8px; }
+  .nav-item.active .nav-item-num { background: var(--teal); color: var(--navy); }
+  .nav-item-label { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+  .nav-item.active .nav-item-label { color: var(--teal-dark); font-weight: 600; }
+  .nav-divider { border: none; border-top: 1px solid var(--border); margin: 8px 6px; }
   .nav-long-label {
     font-size: 10px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.5px; color: var(--teal-dark); padding: 8px 8px 6px;
-    display: block; display: none;
+    letter-spacing: 0.5px; color: var(--teal-dark); padding: 6px 8px 4px; display: none;
   }
   .nav-long-label.visible { display: block; }
   .nav-item.long-nav { display: none; }
   .nav-item.long-nav.visible { display: flex; }
-  .main-content { flex: 1; min-width: 0; padding: 28px 24px 80px; }
-  @media (max-width: 900px) {
-    .nav-sidebar { display: none; }
-    .main-content { padding: 28px 16px 80px; }
-  }
-
 </style>
 </head>
 <body>
@@ -299,86 +291,55 @@
   </div>
 </div>
 
+
 <div class="page-wrap">
-
-<!-- SECTION NAVIGATOR -->
-<nav class="section-nav" id="sectionNav">
-  <div class="nav-header">Sections</div>
-  <ul>
-    <li><a href="#sec1" class="nav-link active" data-sec="sec1"><span class="nav-num">1</span>Company Info</a></li>
-    <li><a href="#sec2" class="nav-link" data-sec="sec2"><span class="nav-num">2</span>Contacts</a></li>
-    <li><a href="#sec3" class="nav-link" data-sec="sec3"><span class="nav-num">3</span>Business Profile</a></li>
-    <li><a href="#sec4" class="nav-link" data-sec="sec4"><span class="nav-num">4</span>Quality System</a></li>
-    <li><a href="#sec5" class="nav-link" data-sec="sec5"><span class="nav-num">5</span>Regulatory &amp; Ethics</a></li>
-    <li><a href="#sec6" class="nav-link" data-sec="sec6"><span class="nav-num">6</span>Supply Chain</a></li>
-    <li><a href="#sec7" class="nav-link" data-sec="sec7"><span class="nav-num">7</span>Documents</a></li>
-    <li><a href="#sec8" class="nav-link long-item" data-sec="sec8"><span class="nav-num">8</span>Quality Extended</a></li>
-    <li><a href="#sec9" class="nav-link long-item" data-sec="sec9"><span class="nav-num">9</span>Mfg &amp; Capacity</a></li>
-    <li><a href="#sec10" class="nav-link long-item" data-sec="sec10"><span class="nav-num">10</span>Schedule</a></li>
-    <li><a href="#sec11" class="nav-link long-item" data-sec="sec11"><span class="nav-num">11</span>Commercial</a></li>
-    <li><a href="#sec12" class="nav-link long-item" data-sec="sec12"><span class="nav-num">12</span>Cust. Support</a></li>
-  </ul>
-</nav>
-
-<div class="content-wrap">
-<div class="page-wrap">
-
-<!-- STICKY SIDEBAR NAV -->
 <nav class="nav-sidebar" id="navSidebar">
-  <div class="nav-sidebar-inner">
-    <span class="nav-sidebar-label">Sections</span>
-    <a class="nav-item active" href="#sec1" onclick="scrollTo('sec1')">
-      <span class="nav-item-num">1</span>
-      <span class="nav-item-label">Company Information</span>
-    </a>
-    <a class="nav-item" href="#sec2" onclick="scrollTo('sec2')">
-      <span class="nav-item-num">2</span>
-      <span class="nav-item-label">Contacts</span>
-    </a>
-    <a class="nav-item" href="#sec3" onclick="scrollTo('sec3')">
-      <span class="nav-item-num">3</span>
-      <span class="nav-item-label">Business Profile</span>
-    </a>
-    <a class="nav-item" href="#sec4" onclick="scrollTo('sec4')">
-      <span class="nav-item-num">4</span>
-      <span class="nav-item-label">Quality System</span>
-    </a>
-    <a class="nav-item" href="#sec5" onclick="scrollTo('sec5')">
-      <span class="nav-item-num">5</span>
-      <span class="nav-item-label">Regulatory &amp; Compliance</span>
-    </a>
-    <a class="nav-item" href="#sec6" onclick="scrollTo('sec6')">
-      <span class="nav-item-num">6</span>
-      <span class="nav-item-label">Supply Chain &amp; Audit</span>
-    </a>
-    <hr class="nav-divider">
-    <span class="nav-long-label" id="navLongLabel">Full Qualification</span>
-    <a class="nav-item long-nav" id="navSec7" href="#sec7" onclick="scrollTo('sec7')">
-      <span class="nav-item-num" style="background:var(--teal-light);color:var(--teal-dark);">7</span>
-      <span class="nav-item-label">Quality — Extended</span>
-    </a>
-    <a class="nav-item long-nav" id="navSec8" href="#sec8" onclick="scrollTo('sec8')">
-      <span class="nav-item-num" style="background:var(--teal-light);color:var(--teal-dark);">8</span>
-      <span class="nav-item-label">Manufacturing &amp; Capacity</span>
-    </a>
-    <a class="nav-item long-nav" id="navSec9" href="#sec9" onclick="scrollTo('sec9')">
-      <span class="nav-item-num" style="background:var(--teal-light);color:var(--teal-dark);">9</span>
-      <span class="nav-item-label">Schedule</span>
-    </a>
-    <a class="nav-item long-nav" id="navSec10" href="#sec10" onclick="scrollTo('sec10')">
-      <span class="nav-item-num" style="background:var(--teal-light);color:var(--teal-dark);">10</span>
-      <span class="nav-item-label">Commercial</span>
-    </a>
-    <a class="nav-item long-nav" id="navSec11" href="#sec11" onclick="scrollTo('sec11')">
-      <span class="nav-item-num" style="background:var(--teal-light);color:var(--teal-dark);">11</span>
-      <span class="nav-item-label">Customer Support</span>
-    </a>
-    <hr class="nav-divider">
-    <a class="nav-item" href="#secDocs" onclick="scrollTo('secDocs')">
-      <span class="nav-item-num" id="navDocsNum">7</span>
-      <span class="nav-item-label">Documents</span>
-    </a>
-  </div>
+  <span class="nav-sidebar-label">Sections</span>
+  <a class="nav-item active" href="#sec1" onclick="navClick(event,'sec1')">
+    <span class="nav-item-num">1</span><span class="nav-item-label">Company Info</span>
+  </a>
+  <a class="nav-item" href="#sec2" onclick="navClick(event,'sec2')">
+    <span class="nav-item-num">2</span><span class="nav-item-label">Contacts</span>
+  </a>
+  <a class="nav-item" href="#sec3" onclick="navClick(event,'sec3')">
+    <span class="nav-item-num">3</span><span class="nav-item-label">Business Profile</span>
+  </a>
+  <a class="nav-item" href="#sec4" onclick="navClick(event,'sec4')">
+    <span class="nav-item-num">4</span><span class="nav-item-label">Quality System</span>
+  </a>
+  <a class="nav-item" href="#sec5" onclick="navClick(event,'sec5')">
+    <span class="nav-item-num">5</span><span class="nav-item-label">Regulatory &amp; Ethics</span>
+  </a>
+  <a class="nav-item" href="#sec6" onclick="navClick(event,'sec6')">
+    <span class="nav-item-num">6</span><span class="nav-item-label">Supply Chain</span>
+  </a>
+  <hr class="nav-divider">
+  <span class="nav-long-label" id="navLongLabel">Full Qualification</span>
+  <a class="nav-item long-nav" href="#sec7" onclick="navClick(event,'sec7')">
+    <span class="nav-item-num" style="background:var(--teal-light);color:var(--teal-dark);">7</span>
+    <span class="nav-item-label">Quality Extended</span>
+  </a>
+  <a class="nav-item long-nav" href="#sec8" onclick="navClick(event,'sec8')">
+    <span class="nav-item-num" style="background:var(--teal-light);color:var(--teal-dark);">8</span>
+    <span class="nav-item-label">Mfg &amp; Capacity</span>
+  </a>
+  <a class="nav-item long-nav" href="#sec9" onclick="navClick(event,'sec9')">
+    <span class="nav-item-num" style="background:var(--teal-light);color:var(--teal-dark);">9</span>
+    <span class="nav-item-label">Schedule</span>
+  </a>
+  <a class="nav-item long-nav" href="#sec10" onclick="navClick(event,'sec10')">
+    <span class="nav-item-num" style="background:var(--teal-light);color:var(--teal-dark);">10</span>
+    <span class="nav-item-label">Commercial</span>
+  </a>
+  <a class="nav-item long-nav" href="#sec11" onclick="navClick(event,'sec11')">
+    <span class="nav-item-num" style="background:var(--teal-light);color:var(--teal-dark);">11</span>
+    <span class="nav-item-label">Cust. Support</span>
+  </a>
+  <hr class="nav-divider">
+  <a class="nav-item" href="#secDocs" onclick="navClick(event,'secDocs')">
+    <span class="nav-item-num" id="navDocsNum">7</span>
+    <span class="nav-item-label">Documents</span>
+  </a>
 </nav>
 
 <div class="main-content" id="mainWrapper">
@@ -959,8 +920,8 @@
   <p style="margin-bottom:10px;font-size:13px;color:var(--text-muted)">Your reference number:</p>
   <div class="ref-code" id="refCode">TT-000000</div>
 </div>
-</div><!-- /main -->
-</div><!-- /content-wrap -->
+
+</div><!-- /main-content -->
 </div><!-- /page-wrap -->
 
 <script>
@@ -1162,7 +1123,6 @@ document.getElementById('supplierForm').addEventListener('submit', async functio
   }
 });
 
-
 // ── SECTION NAVIGATOR ────────────────────────────────────────
 function updateNav() {
   const sections = document.querySelectorAll('.section[id]');
@@ -1203,91 +1163,40 @@ updateNav();
 
 
 
-// ── SIDEBAR SCROLLSPY ────────────────────────────────────────
-function scrollTo(id) {
-  event.preventDefault();
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function updateActiveNav() {
-  const sections = ['sec1','sec2','sec3','sec4','sec5','sec6','sec7','sec8','sec9','sec10','sec11','secDocs'];
-  const scrollY = window.scrollY + 120;
-  let current = 'sec1';
-  sections.forEach(id => {
-    const el = document.getElementById(id);
-    if (el && el.offsetTop <= scrollY) current = id;
-  });
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.classList.remove('active');
-    const href = item.getAttribute('href');
-    if (href === '#' + current) item.classList.add('active');
-  });
-}
-
-// Show/hide long-form nav items when mode changes
-const origSetMode = setMode;
-window.setMode = function(mode) {
-  origSetMode(mode);
-  const longItems = document.querySelectorAll('.nav-item.long-nav');
-  const longLabel = document.getElementById('navLongLabel');
-  const docsNum = document.getElementById('navDocsNum');
-  longItems.forEach(el => el.classList.toggle('visible', mode === 'long'));
-  if (longLabel) longLabel.classList.toggle('visible', mode === 'long');
-  if (docsNum) docsNum.textContent = mode === 'long' ? '12' : '7';
-};
-
-window.addEventListener('scroll', updateActiveNav, { passive: true });
-updateActiveNav();
-
 // ── INIT ─────────────────────────────────────────────────────────────────────
 document.querySelector('[name="dateCompleted"]').value = new Date().toISOString().split('T')[0];
 updateProgress();
+
+// ── NAV ───────────────────────────────────────────────────────
+function navClick(e, id) {
+  e.preventDefault();
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function updateActiveNav() {
+  const ids = ['sec1','sec2','sec3','sec4','sec5','sec6','sec7','sec8','sec9','sec10','sec11','secDocs'];
+  const scrollY = window.scrollY + 160;
+  let current = 'sec1';
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top + window.scrollY <= scrollY) current = id;
+  });
+  document.querySelectorAll('#navSidebar .nav-item').forEach(item => {
+    item.classList.toggle('active', item.getAttribute('href') === '#' + current);
+  });
+}
+const _origSetMode = setMode;
+setMode = function(mode) {
+  _origSetMode(mode);
+  document.querySelectorAll('.nav-item.long-nav').forEach(el => el.classList.toggle('visible', mode === 'long'));
+  const ll = document.getElementById('navLongLabel');
+  const dn = document.getElementById('navDocsNum');
+  if (ll) ll.classList.toggle('visible', mode === 'long');
+  if (dn) dn.textContent = mode === 'long' ? '12' : '7';
+};
+window.addEventListener('scroll', updateActiveNav, { passive: true });
+updateActiveNav();
 </script>
 
-<!-- DOCUMENT FOOTER -->
-<div style="background:#fff;border:1px solid #d4dce8;border-radius:0;margin-top:32px;font-family:'Segoe UI',sans-serif;">
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid #d4dce8;">
-    <div style="padding:10px 14px;border-right:1px solid #d4dce8;">
-      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Document</div>
-      <div style="font-size:13px;color:#1a2b45;font-weight:500;">Supplier Qualification Questionnaire</div>
-    </div>
-    <div style="padding:10px 14px;border-right:1px solid #d4dce8;">
-      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Doc Number</div>
-      <div style="font-size:13px;color:#1a2b45;font-weight:500;">TT-SC-F002</div>
-    </div>
-    <div style="padding:10px 14px;border-right:1px solid #d4dce8;">
-      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Revision</div>
-      <div style="font-size:13px;color:#1a2b45;font-weight:500;">Rev A</div>
-    </div>
-    <div style="padding:10px 14px;">
-      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Effective Date</div>
-      <div style="font-size:13px;color:#1a2b45;font-weight:500;">2026-04-29</div>
-    </div>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);">
-    <div style="padding:10px 14px;border-right:1px solid #d4dce8;">
-      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Owner</div>
-      <div style="font-size:13px;color:#1a2b45;font-weight:500;">TT Supply Chain</div>
-    </div>
-    <div style="padding:10px 14px;border-right:1px solid #d4dce8;">
-      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Department</div>
-      <div style="font-size:13px;color:#1a2b45;font-weight:500;">Global Sourcing &amp; Supply Chain</div>
-    </div>
-    <div style="padding:10px 14px;border-right:1px solid #d4dce8;">
-      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Classification</div>
-      <div style="font-size:13px;color:#1a2b45;font-weight:500;">Tenstorrent Confidential</div>
-    </div>
-    <div style="padding:10px 14px;">
-      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Status</div>
-      <div style="font-size:13px;color:#38a169;font-weight:600;">Active</div>
-    </div>
-  </div>
-  <div style="padding:10px 14px;text-align:center;font-size:11px;color:#aaa;border-top:1px solid #d4dce8;">
-    This is a controlled document. Printed copies are uncontrolled. Latest version available at the Tenstorrent supplier portal. © Tenstorrent Inc. All rights reserved.
-  </div>
-</div>
-
-</div><!-- /page-wrap -->
 </body>
 </html>
