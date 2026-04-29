@@ -405,9 +405,19 @@
       <label>Other Facility Locations <span class="hint">(list all sites that may produce parts for Tenstorrent)</span></label>
       <input type="text" name="otherLocations" placeholder="e.g. Kunshan, Chongqing, Dongguan, Vietnam">
     </div>
-    <div class="field span2">
-      <label>% of Business in Liquid Cooling / Thermal Applications</label>
-      <input type="text" name="pctThermal" placeholder="e.g. 35%">
+    <div class="field span3">
+      <label>Primary Industry / Commodity Served <span class="hint">(check all that apply)</span></label>
+      <div class="check-grid" style="margin-top:8px;">
+        <label class="check-item"><input type="checkbox" name="ind_thermal" value="Yes"> Thermal / Liquid Cooling</label>
+        <label class="check-item"><input type="checkbox" name="ind_mechanical" value="Yes"> Mechanical / Fabrication</label>
+        <label class="check-item"><input type="checkbox" name="ind_pcba" value="Yes"> PCB / PCBA</label>
+        <label class="check-item"><input type="checkbox" name="ind_silicon" value="Yes"> Silicon / Semiconductor</label>
+        <label class="check-item"><input type="checkbox" name="ind_software" value="Yes"> Software / Firmware</label>
+        <label class="check-item"><input type="checkbox" name="ind_ip" value="Yes"> IP / Licensing</label>
+        <label class="check-item"><input type="checkbox" name="ind_design" value="Yes"> Design Services / EDA</label>
+        <label class="check-item"><input type="checkbox" name="ind_logistics" value="Yes"> Logistics / Distribution</label>
+        <label class="check-item"><input type="checkbox" name="ind_other" value="Yes"> Other</label>
+      </div>
     </div>
     <div class="field span3">
       <label>Current Manufacturing Capacity Utilization</label>
