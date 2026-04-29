@@ -214,11 +214,13 @@
     margin-bottom: 4px; border-bottom: 1px solid var(--border); }
   .content-wrap { flex: 1; min-width: 0; }
   /* ── PAGE LAYOUT ── */
-  .page-wrap { display: flex; max-width: 1300px; margin: 0 auto; }
+  .page-wrap { display: flex; max-width: 1300px; margin: 0 auto; align-items: flex-start; }
   .nav-sidebar {
     width: 196px; flex-shrink: 0; align-self: flex-start;
-    position: sticky; top: 112px; height: calc(100vh - 112px);
+    position: sticky; top: var(--header-h, 112px); 
+    height: calc(100vh - var(--header-h, 112px));
     overflow-y: auto; padding: 24px 0 40px 20px;
+    scrollbar-width: thin;
   }
   .main-content { flex: 1; min-width: 0; padding: 28px 32px 80px 20px; }
   @media (max-width: 900px) {
@@ -921,6 +923,50 @@
   <div class="ref-code" id="refCode">TT-000000</div>
 </div>
 
+
+<!-- DOCUMENT FOOTER -->
+<div style="background:#fff;border:1px solid #d4dce8;margin-top:32px;font-family:'Segoe UI',sans-serif;">
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid #d4dce8;">
+    <div style="padding:10px 14px;border-right:1px solid #d4dce8;">
+      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Document</div>
+      <div style="font-size:13px;color:#1a2b45;font-weight:500;">Supplier Qualification Questionnaire</div>
+    </div>
+    <div style="padding:10px 14px;border-right:1px solid #d4dce8;">
+      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Doc Number</div>
+      <div style="font-size:13px;color:#1a2b45;font-weight:500;">TT-SC-F002</div>
+    </div>
+    <div style="padding:10px 14px;border-right:1px solid #d4dce8;">
+      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Revision</div>
+      <div style="font-size:13px;color:#1a2b45;font-weight:500;">Rev A</div>
+    </div>
+    <div style="padding:10px 14px;">
+      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Effective Date</div>
+      <div style="font-size:13px;color:#1a2b45;font-weight:500;">2026-04-29</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);">
+    <div style="padding:10px 14px;border-right:1px solid #d4dce8;">
+      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Owner</div>
+      <div style="font-size:13px;color:#1a2b45;font-weight:500;">TT Supply Chain</div>
+    </div>
+    <div style="padding:10px 14px;border-right:1px solid #d4dce8;">
+      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Department</div>
+      <div style="font-size:13px;color:#1a2b45;font-weight:500;">Global Sourcing &amp; Supply Chain</div>
+    </div>
+    <div style="padding:10px 14px;border-right:1px solid #d4dce8;">
+      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Classification</div>
+      <div style="font-size:13px;color:#1a2b45;font-weight:500;">Tenstorrent Confidential</div>
+    </div>
+    <div style="padding:10px 14px;">
+      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">Status</div>
+      <div style="font-size:13px;color:#38a169;font-weight:600;">Active</div>
+    </div>
+  </div>
+  <div style="padding:10px 14px;text-align:center;font-size:11px;color:#aaa;border-top:1px solid #d4dce8;">
+    This is a controlled document. Printed copies are uncontrolled. Latest version available at the Tenstorrent supplier portal. &copy; Tenstorrent Inc. All rights reserved.
+  </div>
+</div>
+
 </div><!-- /main-content -->
 </div><!-- /page-wrap -->
 
@@ -1173,18 +1219,29 @@ function navClick(e, id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
 function updateActiveNav() {
-  const ids = ['sec1','sec2','sec3','sec4','sec5','sec6','sec7','sec8','sec9','sec10','sec11','secDocs'];
-  const scrollY = window.scrollY + 160;
+  // Only include sections that are currently visible in the DOM
+  const allIds = ['sec1','sec2','sec3','sec4','sec5','sec6','sec7','sec8','sec9','sec10','sec11','secDocs'];
+  const headerH = document.querySelector('.header') ? document.querySelector('.header').offsetHeight : 112;
+  const offset = headerH + 40;
+  const scrollY = window.scrollY + offset;
+
   let current = 'sec1';
-  ids.forEach(id => {
+  allIds.forEach(id => {
     const el = document.getElementById(id);
-    if (el && el.getBoundingClientRect().top + window.scrollY <= scrollY) current = id;
+    // Skip sections hidden via CSS (long-only sections in short mode)
+    if (!el) return;
+    if (getComputedStyle(el).display === 'none') return;
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    if (top <= scrollY) current = id;
   });
+
   document.querySelectorAll('#navSidebar .nav-item').forEach(item => {
     item.classList.toggle('active', item.getAttribute('href') === '#' + current);
   });
 }
+
 const _origSetMode = setMode;
 setMode = function(mode) {
   _origSetMode(mode);
@@ -1193,8 +1250,24 @@ setMode = function(mode) {
   const dn = document.getElementById('navDocsNum');
   if (ll) ll.classList.toggle('visible', mode === 'long');
   if (dn) dn.textContent = mode === 'long' ? '12' : '7';
+  // Re-run scrollspy after mode change
+  setTimeout(updateActiveNav, 50);
 };
+
 window.addEventListener('scroll', updateActiveNav, { passive: true });
+// Run on load and after any layout shift
+window.addEventListener('load', updateActiveNav);
+
+// ── SET HEADER HEIGHT CSS VAR ─────────────────────────────────
+function setHeaderHeight() {
+  const h = document.querySelector('.header');
+  if (h) {
+    const hh = h.offsetHeight;
+    document.documentElement.style.setProperty('--header-h', hh + 'px');
+  }
+}
+setHeaderHeight();
+window.addEventListener('resize', setHeaderHeight);
 updateActiveNav();
 </script>
 
